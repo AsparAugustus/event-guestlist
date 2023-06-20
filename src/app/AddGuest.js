@@ -11,6 +11,17 @@ function AddGuest({ onSwitch }) {
   const [checkedIn, setCheckedIn] = useState(false);
   const router = useRouter();
 
+  async function fetchGuests() {
+    try {
+      const response = await axios.get('/api/getGuests');
+      setGuests(response.data);
+
+      console.log("Guests", response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async function handleCheckIn() {
     try {
         const checked_in = 1
@@ -22,6 +33,8 @@ function AddGuest({ onSwitch }) {
         checked_in: checked_in,
       });
       setCheckedIn(true);
+
+      await fetchGuests()
     } catch (error) {
     //   console.error(error);
     }
