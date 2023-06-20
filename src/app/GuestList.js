@@ -14,6 +14,8 @@ function GuestList({onSwitch}) {
     try {
       const response = await axios.get('/api/getGuests');
       setGuests(response.data);
+
+      console.log("Guests", response.data)
     } catch (error) {
       console.error(error);
     }
