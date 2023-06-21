@@ -13,6 +13,7 @@ function GuestList({ onSwitch }) {
   
     fetchData();
   }, []);
+  
 
 
   async function fetchGuests() {
@@ -31,6 +32,10 @@ function GuestList({ onSwitch }) {
         console.log(full_name, "full_name here")
       await axios.put(`/api/updatecheckIn`, { full_name });
       await fetchGuests();
+
+       // Update filteredGuests after check-in is successfully updated
+    const updatedFilteredGuests = guests.filter(guest => guest.full_name.toLowerCase().includes(searchQuery.toLowerCase()));
+    setFilteredGuests(updatedFilteredGuests);
     } catch (error) {
       console.error(error, "error here");
     }
