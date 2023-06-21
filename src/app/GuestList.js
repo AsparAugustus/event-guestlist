@@ -7,8 +7,13 @@ function GuestList({ onSwitch }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    fetchGuests();
+    async function fetchData() {
+      await fetchGuests();
+    }
+  
+    fetchData();
   }, []);
+
 
   async function fetchGuests() {
     try {
@@ -21,9 +26,10 @@ function GuestList({ onSwitch }) {
     }
   }
 
-  async function handleCheckIn(email) {
+  async function handleCheckIn(full_name) {
     try {
-      await axios.put(`/api/updatecheckIn`, { email });
+        console.log(full_name, "full_name here")
+      await axios.put(`/api/updatecheckIn`, { full_name });
       await fetchGuests();
     } catch (error) {
       console.error(error, "error here");
@@ -43,7 +49,7 @@ function GuestList({ onSwitch }) {
   );
 
   setFilteredGuests(_filteredGuests)
-  }, [searchQuery])
+  }, [searchQuery, guests])
 
   
 
@@ -75,7 +81,7 @@ function GuestList({ onSwitch }) {
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleCheckIn(guest.email)}
+                      onClick={() => handleCheckIn(guest.full_name)}
                       className="bg-white border border-black px-4 py-2 rounded-md"
                     >
                       Check-In
